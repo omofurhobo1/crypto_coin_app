@@ -13,6 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String? _selectedCoin = "bitcoin";
   double? _deviceHeight, _deviceWidth;
   HttpService? _http;
   @override
@@ -72,16 +73,20 @@ class _HomePageState extends State<HomePage> {
         color: Colors.white,
       ),
       iconSize: 30,
-      value: _coins.first,
+      value: _selectedCoin,
       items: _item,
-      onChanged: (_value) {},
+      onChanged: (_value) {
+        setState(() {
+          _selectedCoin = _value;
+        });
+      },
       underline: Container(),
     );
   }
 
   Widget _dataWidget() {
     return FutureBuilder(
-        future: _http!.get("/coins/bitcoin"),
+        future: _http!.get("/coins/$_selectedCoin"),
         builder: (BuildContext _context, AsyncSnapshot _snapshot) {
           if (_snapshot.hasData) {
             Map _data = jsonDecode(
