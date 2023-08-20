@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
   Widget _coinsDropDownButton() {
     List<String> _coins = [
       "bitcoin",
-      "etherium",
+      "ethereum",
       "tether",
       "cardano",
       "ripple"
@@ -94,6 +94,7 @@ class _HomePageState extends State<HomePage> {
             );
             num _usdPrice = _data["market_data"]["current_price"]["usd"];
             num _change = _data["market_data"]["price_change_percentage_24h"];
+            Map _exchangeRates = _data["market_data"]["current_price"];
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
@@ -103,7 +104,9 @@ class _HomePageState extends State<HomePage> {
                     onDoubleTap: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (BuildContext _context) {
-                        return DetailsPage();
+                        return DetailsPage(
+                          rates: _exchangeRates,
+                        );
                       }));
                     },
                     child: _coinImage(_data["image"]["large"])),
